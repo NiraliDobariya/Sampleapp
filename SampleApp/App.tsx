@@ -1,118 +1,90 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+// //Area (Component)
+// import { View, Dimensions } from "react-native";
+// import { CartesianChart, Area,Line,Bar } from "victory-native";
+// const DATA = Array.from({ length: 31 }, (_, i) => ({
+//   x: i,
+//   y: 40 + 30 * Math.random(),
+// }));
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+// const windowWidth = Dimensions.get('window').width;
+// const windowHeight = Dimensions.get('window').height;
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+
+// export default function MyChart() {
+//   return (
+//     <View style={{ height: windowHeight-200,width:windowWidth-30,margin:10,marginTop:100 }}>    
+//      <CartesianChart data={DATA} xKey="x" yKeys={["y"]}>
+//       {({ points, chartBounds }) => (
+//         //👇 pass a PointsArray to the Line component, y0, as well as options.
+//         <Area
+//           points={points.y}
+//           y0={chartBounds.bottom}
+//           connectMissingData={false}
+//           color="red"
+//           animate={{ type: "timing", duration: 300 }}
+//         />
+//         // <Line
+//         //   points={points.y}
+//         //   color="red"
+//         //   strokeWidth={3}
+//         //   strokeJoin="round"
+//         //   animate={{ type: "timing", duration: 300 }}
+//         // />
+//         // <Bar
+//         //   points={points.y}
+//         //   chartBounds={chartBounds}
+//         //   color="red"
+//         //   roundedCorners={{ topLeft: 10, topRight: 10 }}
+//         // />
+//       )}
+//     </CartesianChart>
+//     </View>
+//   );
+// }
+
+
+//Line chart with tooltip
+import * as React from "react";
+import { ScrollView, View,Dimensions } from "react-native";
+import { CartesianChart, Line, useChartPressState } from "victory-native";
+import { Circle, useFont } from "@shopify/react-native-skia";
+import type { SharedValue } from "react-native-reanimated";
+
+export default function MyChart() {
+  const { state, isActive } = useChartPressState({ x: 0, y: { highTmp: 0 } });
+
+  const windowWidth = Dimensions.get('window').width;
+    const windowHeight = Dimensions.get('window').height;
+
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={{ height: windowHeight-200,width:windowWidth-30,margin:10,marginTop:100 }}>    
+          <CartesianChart
+        data={DATA}
+        xKey="day"
+        yKeys={["highTmp"]}
+       
+        chartPressState={state}
+      >
+        {({ points }) => (
+          <>
+            <Line points={points.highTmp} color="red" strokeWidth={3} />
+            {isActive && (
+              <ToolTip x={state.x.position} y={state.y.highTmp.position} />
+            )}
+          </>
+        )}
+      </CartesianChart>
     </View>
   );
 }
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
+function ToolTip({ x, y }: { x: SharedValue<number>; y: SharedValue<number> }) {
+  return <Circle cx={x} cy={y} r={8} color="black" />;
 }
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
-export default App;
+const DATA = Array.from({ length: 31 }, (_, i) => ({
+  day: i,
+  highTmp: 40 + 30 * Math.random(),
+}));
