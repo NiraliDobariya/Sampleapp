@@ -15,7 +15,7 @@ steps:
     actions: 'build'
     configuration: 'Release'
     sdk: 'iphoneos'
-    xcWorkspacePath: 'Sampleapp.xcworkspace'
+    xcWorkspacePath: 'Sampleapp/ios/Sampleapp.xcworkspace'
     xcodeVersion: 'specifyPath'
     xcodeDeveloperDir: '/Applications/Xcode\_15.1.app'
     packageApp: false
