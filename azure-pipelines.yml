@@ -15,7 +15,7 @@ steps:
     actions: 'build'
     configuration: 'Release'
     sdk: 'iphoneos'
-    xcWorkspacePath: 'Travokarma.xcworkspace'
+    xcWorkspacePath: 'Sampleapp.xcworkspace'
     xcodeVersion: 'specifyPath'
     xcodeDeveloperDir: '/Applications/Xcode\_15.1.app'
     packageApp: false
