@@ -13,8 +13,9 @@ steps:
 - task: Xcode@5
   inputs:
     actions: 'build'
-    scheme: ''
-    sdk: 'iphoneos'
     configuration: 'Release'
+    sdk: 'iphoneos'
     xcWorkspacePath: 'Travokarma.xcworkspace'
-    xcodeVersion: 'default' # Options: 8, 9, 10, 11, 12, default, specifyPath
+    xcodeVersion: 'specifyPath'
+    xcodeDeveloperDir: '/Applications/Xcode\_15.1.app'
+    packageApp: false
