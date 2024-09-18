@@ -18,4 +18,5 @@ steps:
     xcWorkspacePath: 'Sampleapp/ios/Sampleapp.xcworkspace'
     xcodeVersion: 'specifyPath'
     xcodeDeveloperDir: '/Applications/Xcode\_15.1.app'
-    packageApp: false
+    packageApp: true
+    signingOption: 'default'
